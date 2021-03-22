@@ -1,0 +1,23 @@
+{
+  "name": "bdbrowser",
+  "version": "1.0.0",
+  "description": "Allows you to use bd in browser",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Strencher",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "^7.12.13",
+    "@babel/plugin-proposal-class-properties": "^7.12.13",
+    "@babel/plugin-proposal-optional-chaining": "^7.13.12",
+    "babel": "^6.23.0",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.0.1",
+    "sucrase": "^3.17.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-merge": "^5.0.9"
+  }
+}
