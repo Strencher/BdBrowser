@@ -21,7 +21,7 @@ const Logger = {
 };
 
 const script = createElement("script", {
-   src: "http://127.0.0.1:5500/dist/index.js",
+   src: "https://strencher.github.io/BdBrowser/dist/index.js",
    onload: () => {
       Logger.log("Successfully injected!");
    },
