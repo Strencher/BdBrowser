@@ -12,6 +12,19 @@ export default class DOM {
         return node;
     }
 
+    static injectTheme(id, css) {
+        const [bdThemes] = document.getElementsByTagName("bd-themes");
+
+        const style = this.createElement("style", {
+            id: id,
+            type: "text/css",
+            innerHTML: css,
+        });
+
+        style.setAttribute("data-bd-native", "");
+        bdThemes.append(style);
+    }
+
     static injectCSS(id, css) {
         const style = this.createElement("style", {
             id: id,

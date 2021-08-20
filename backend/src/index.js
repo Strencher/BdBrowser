@@ -12,6 +12,10 @@ ipcMain.on(IPCEvents.INJECT_CSS, (_, data) => {
     DOM.injectCSS(data.id, data.css);
 });
 
+ipcMain.on(IPCEvents.INJECT_THEME, (_, data) => {
+    DOM.injectTheme(data.id, data.css);
+});
+
 ipcMain.on(IPCEvents.MAKE_REQUESTS, (event, data) => {
     fetch(data.url)
         .catch(console.error.bind(null, "REQUEST FAILED:"))

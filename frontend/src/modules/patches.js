@@ -86,6 +86,7 @@ const unpatchHead = patchMethods(document.head, data => {
             } else if (node?.localName === "bd-themes") {
                 patchMethods(node, data => {
                     const [node] = data.args;
+                    if (node.getAttribute("data-bd-native")) return data.callOriginalMethod();
                     injectTheme(node);
                     if (typeof node.onload === "function") node.onload();
                     Logger.log("CSP:Bypass", `Loaded theme ${node.id}`);
@@ -120,5 +121,5 @@ const unpatchHead = patchMethods(document.head, data => {
 });
 
 function injectTheme(node) {
-    ipcRenderer.send(IPCEvents.INJECT_CSS, {id: node.id, css: node.textContent});
+    ipcRenderer.send(IPCEvents.INJECT_THEME, {id: node.id, css: node.textContent});
 }
