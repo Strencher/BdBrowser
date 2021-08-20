@@ -5,3 +5,8 @@ export const globals = {
       return "stable";
    }
 }
+
+export const app = {
+   getReleaseChannel() {return globals.releaseChannel;},
+   getVersion() {return "1.0.9002"}
+};
