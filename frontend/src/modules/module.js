@@ -15,10 +15,11 @@ const _extensions = {
 function _require(path) {
     const extension = "." + extname(path);
     const loader = _extensions[extension];
-    if (!loader) throw new Error("Unkown File extension");
+    if (!loader) throw new Error("Unkown File extension " + path);
     const existsFile = fs.existsSync(path);
+    if (!path) console.log(path);
     if (!existsFile) throw new Error("Module not found!");
-
+    
     const final = {
         exports: {},
         filename: path,
@@ -30,13 +31,13 @@ function _require(path) {
                     module
                 };
             })({exports: {}}, window)`);
-            console.log(module.exports);
-            return final.exports = module.exports;
+            
+            if (Object.keys(module.exports).length) final.exports = module.exports;
+
+            return final.exports;
         }
     };
-
     loader(final, path);
-
     return final.exports;
 }
 

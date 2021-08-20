@@ -4,7 +4,15 @@
   "description": "Allows you to use bd in browser",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch-backend": "cd ./backend && webpack --env=type=backend --watch --color --progress --config=../webpack.config.js",
+    "watch-frontend": "cd ./frontend && webpack --env=type=frontend --watch --color --progress --config=../webpack.config.js",
+    "build-frontend": "cd ./frontend && webpack --env=type=frontend --env=mode=production --config=../webpack.config.js",
+    "build-frontend-dev": "cd ./frontend && webpack --env=type=frontend --env=mode=development --config=../webpack.config.js",
+    "build-backend": "cd ./backend && webpack --env=type=backend --env=mode=production --config=../webpack.config.js",
+    "build-backend-dev": "cd ./backend && webpack --env=type=backend --env=mode=development --config=../webpack.config.js",
+    "prod": "npm run build-frontend && npm run build-backend && echo Finished Build",
+    "host": "node ./scripts/host.js"
   },
   "author": "Strencher",
   "license": "MIT",
@@ -15,9 +23,12 @@
     "babel": "^6.23.0",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.0.1",
+    "monaco-editor": "^0.26.1",
+    "raw-loader": "^4.0.2",
+    "style-loader": "^3.2.1",
     "sucrase": "^3.17.1",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12",
+    "webpack": "^5.45.1",
+    "webpack-cli": "^4.7.2",
     "webpack-merge": "^5.0.9"
   }
 }

@@ -1,10 +1,13 @@
-import { getItem, setItem } from './localStorage';
+import Events from "./events";
+import {getItem, setItem} from "./localStorage";
 
 const FILE_REGEX = /\.(.+)$/;
 
 function isFile(name) {
    return FILE_REGEX.test(name);
 };
+
+const emitter = new Events();
 
 if (!getItem("bd-files")) setItem("bd-files", JSON.stringify({
    type: "dir",
@@ -20,6 +23,10 @@ if (!getItem("bd-files")) setItem("bd-files", JSON.stringify({
                      files: {}
                   },
                   themes: {
+                     type: "dir",
+                     files: {}
+                  },
+                  data: {
                      type: "dir",
                      files: {}
                   }
@@ -74,6 +81,15 @@ export function writeFileSync(path, content) {
    setItem("bd-files", JSON.stringify(files));
 };
 
+export function writeFile(path, content, callback) {
+   try {
+      writeFileSync(path, content);
+      callback(null);
+   } catch (e) {
+      callback(e);
+   }
+}
+
 export function mkdirSync(path) {
    path = normalizePath(path);
    const files = getStore();
@@ -93,6 +109,8 @@ export function mkdirSync(path) {
          segment.files[filename] = {type: "dir", files: {}};
       }
    }
+
+   setItem("bd-files", JSON.stringify(files));
 };
 
 export function readdirSync(path) {
@@ -113,7 +131,6 @@ export function readdirSync(path) {
          found.push(...Object.keys(segment.files));
       }
    }
-
    return found.sort();
 };
 
@@ -152,14 +169,36 @@ export function statSync(path) {
    const split = path.split("/");
    let file = files;
 
-   for(const item of split) {
+   for (const item of split) {
       file = file?.files?.[item];
    }
 
    return {
+      mtime: {getTime: () => Date.now()},
       isFile: () => file?.type === "file",
       isDirectory: () => file?.type === "dir"
    };
+}
+
+export function unlinkSync(path) {
+   path = normalizePath(path);
+   const files = getStore();
+   const split = path.split("/");
+   const filename = split[split.length - 1];
+   let segment = files;
+
+   for(let i = 0; i < split.length; i++) {
+      const item = split[i];
+      const isLast = i === split.length - 1;
+      if (!segment) return;
+      if(!isLast) segment = segment.files?.[item];
+      if(!segment && !isLast) return "NOT_FOUND";
+      if(isLast) {
+         delete segment.files[filename]
+      }
+   }
+
+   setItem("bd-files", JSON.stringify(files));
 }
 
 export function normalizePath(path) {
@@ -168,12 +207,43 @@ export function normalizePath(path) {
 
 export const realpathSync = normalizePath;
 
-export function watch () {
+export function basename(path) {
+   if (!path) return;
+
+   return path.split(/\/|\\/).pop();
+}
+
+export function watch(file, options, listener) {
+   return;
+   if (typeof (options) === "function") {
+      listener = options;
+      options = {};
+   }
+
+   const callback = (file, type) => {
+      listener(type, basename(file));
+   };
+
+   emitter.on("change", callback);
+
    return {
-      close: () => {}
+      close: () => emitter.off("change", callback)
    };
 }
 
-const fs = {watch, mkdirSync, readdirSync, readFileSync, existsSync, writeFileSync};
+const fs = {
+   watch,
+   mkdirSync,
+   readdirSync,
+   readFileSync,
+   existsSync,
+   writeFileSync,
+   getStore,
+   statSync,
+   realpathSync,
+   writeFile,
+   basename,
+   unlinkSync
+};
 
 export default fs;

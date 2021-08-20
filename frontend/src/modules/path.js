@@ -22,3 +22,7 @@ export function resolve(...paths) {
 export function extname(path) {
    return path.split(".").slice(-1)[0];
 }
+
+export function dirname(path) {
+   return path.split("/").slice(0, -1).join("/");
+}
