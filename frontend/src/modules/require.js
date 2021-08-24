@@ -25,7 +25,7 @@ export default function require(mod) {
       case "child_process": return;
       case "http":
       case "https": return https;
-      default: return Module._require(mod);
+      default: return Module._require(mod, require);
   }
 }
 require.resolve = () => void 0;

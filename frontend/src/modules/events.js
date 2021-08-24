@@ -23,3 +23,5 @@ export default class Events {
    }
    setMaxListeners() { }
 };
+
+Events.EventEmitter = Events;

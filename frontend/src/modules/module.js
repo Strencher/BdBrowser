@@ -12,14 +12,15 @@ const _extensions = {
     }
 };
 
-function _require(path) {
+function _require(path, req) {
     const extension = "." + extname(path);
     const loader = _extensions[extension];
     if (!loader) throw new Error("Unkown File extension " + path);
     const existsFile = fs.existsSync(path);
     if (!path) console.log(path);
     if (!existsFile) throw new Error("Module not found!");
-    
+    if (req.cache[path]) return req.cache[path];
+
     const final = {
         exports: {},
         filename: path,
@@ -38,7 +39,7 @@ function _require(path) {
         }
     };
     loader(final, path);
-    return final.exports;
+    return req.cache[path] = final.exports;
 }
 
 

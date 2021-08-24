@@ -28,7 +28,7 @@ window.fetchWithoutCSP = fetchAPI;
 window.monaco = monaco;
 window.IPC = ipcRenderer;
 
-Logger.log("Frontend", "Loading...");
+Logger.log("Frontend", `Loading. environment=${ENV}`);
 
 import "./modules/patches";
 
