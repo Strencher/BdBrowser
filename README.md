@@ -9,6 +9,6 @@ An NodeJS environment emulator that allows you to load BetterDiscord inside your
 2. Enable `Developer mode`
 3. Download the repository (`Code > Download ZIP`)
 4. Unzip the file
-5. Drag and drop the unzipped folder in your extensions page
+5. Drag and drop the unzipped folder into your extensions page
    * Alternatively select `Load unpacked` and then select the unzipped folder 
 6. Reload Discord
