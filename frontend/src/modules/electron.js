@@ -16,7 +16,7 @@ export const remote = {
 
 export const shell = {
    openItem: item => {
-      const inputEl = DOM.createElement("input", {type: "file"});
+      const inputEl = DOM.createElement("input", {type: "file", multiple: "multiple"});
       inputEl.addEventListener("change", () => {
          for (const file of inputEl.files) {
             const reader = new FileReader();
