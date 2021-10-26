@@ -8,10 +8,10 @@ import { IPCEvents } from "common/constants";
 import { default as fetchAPI } from "./modules/fetch";
 import * as monaco from "./modules/monaco"; 
 import DOM from "common/dom";
-import {findByProps} from "webpack";
+import Webpack from "webpack";
 import * as localStorage from "./modules/localStorage";
 
-Object.defineProperty(findByProps("requireModule"), "canBootstrapNewUpdater", {
+Object.defineProperty(Webpack.findByProps("requireModule"), "canBootstrapNewUpdater", {
     value: false,
     configurable: true
 });
@@ -40,7 +40,7 @@ DOM.injectCSS("BetterDiscordWebStyles", `.CodeMirror {height: 100% !important;}`
 ipcRenderer.send(IPCEvents.MAKE_REQUESTS, {
     url: ENV === "development" ? "http://127.0.0.1:5500/betterdiscord.js" : "https://strencher.github.io/BdBrowser/dist/betterdiscord.js"
 }, async bd => {
-    const Dispatcher = findByProps("dirtyDispatch");
+    const Dispatcher = Webpack.findByProps("dirtyDispatch");
 
     const callback = async () => {
         const didSeeWarning = localStorage.getItem("didSeeWarning");
@@ -62,6 +62,6 @@ ipcRenderer.send(IPCEvents.MAKE_REQUESTS, {
         }
     };
     
-    if (!findByProps("getCurrentUser")?.getCurrentUser()) Dispatcher.subscribe("CONNECTION_OPEN", callback);
+    if (!Webpack.findByProps("getCurrentUser")?.getCurrentUser()) Dispatcher.subscribe("CONNECTION_OPEN", callback);
     else setImmediate(callback);
 });

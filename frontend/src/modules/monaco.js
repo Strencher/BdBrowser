@@ -2,9 +2,9 @@ import {IPCEvents} from "common/constants";
 import DOM from "common/dom";
 import ipcRenderer from "../ipc";
 import fetch from "./fetch";
-import {findByProps} from "./webpack";
+import Webpack from "./webpack";
 
-const UserSettingsStore = findByProps("theme", "afkTimeout");
+const UserSettingsStore = Webpack.findByProps("theme", "afkTimeout");
 const version = "5.62.0";
 
 const links = [

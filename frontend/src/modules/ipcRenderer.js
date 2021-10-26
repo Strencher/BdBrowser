@@ -1,6 +1,6 @@
-import {findByProps} from "./webpack";
+import Webpack from "./webpack";
 
-const Router = findByProps("listeners", "flushRoute");
+const Router = Webpack.findByProps("listeners", "flushRoute");
 
 // https://developer.mozilla.org/en/docs/Web/API/Page_Visibility_API
 const [hidden, visibilityChange] = (() => {
